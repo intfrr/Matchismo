@@ -1,7 +1,6 @@
 
-
-README :: Matchismo
-========================================
+## README :: Matchismo ##
+- - - -
 
 
 This Xcode project represents a solution to the Matchismo assignments given
@@ -13,64 +12,59 @@ fundamentals of development with iOS 6.
 For more information about these courses, and how to download the lectures
 and materials via iTunesU, please see:
 
-  http://www.stanford.edu/class/cs193p
+> http://www.stanford.edu/class/cs193p
 
 
-Barring a few trivial exceptions, this version of Matchismo solves every
-Requirement and includes all Extra Credit given in assignments #1 through
-#3.  Since Matchismo underwent significant revision between assigments #2
-and #3, the UITabViewController has been extended to allow selection of the
-first versions (v1) of the Match and Set games.  Files and objects for the
-second version of the Match and Set games are sometimes suffexed with "_v2".
+Barring a few trivial exceptions, this version of Matchismo solves every Requirement and includes all Extra Credit given in assignments #1 through #3.  Since Matchismo underwent significant revision between assigments #2 and #3, the UITabViewController has been extended to allow selection of the first versions (v1) of the Match and Set games.  Files and objects for the second version of the Match and Set games are sometimes suffexed with "_v2".
 
 This solution to Matchismo includes:
 
-  . implementation of Match and Set game, versions 1 and 2
+* implementation of Match and Set game, versions 1 and 2
 
-  . clear use of MVC design patterns
-  
-  . clear use of subclassing in both the view and the model
+* clear use of MVC design patterns
 
-  . use of the storyboard, target-actions and outlets
-  
-  . use of protocols for Delegation design pattern
+* clear use of subclassing in both the view and the model
 
-  . demonstration of UICollectionViews including: multiple, dynamically 
-      allocated sections; heterogeneous, dynamic UICollectionViewCells;
-      supplementary Headers and Footers.
+* use of the storyboard, target-actions and outlets
 
-  . use if UITabViewContorller including custom control over
-      UITabBarController defaults.
+* use of protocols for Delegation design pattern
 
-  . customized UIViews to handle image and text
+* demonstration of UICollectionViews including: multiple, dynamically 
+    allocated sections; heterogeneous, dynamic UICollectionViewCells;
+    supplementary Headers and Footers.
 
-  . use of Pinch and Tap gestures
+* use if UITabViewContorller including custom control over
+    UITabBarController defaults.
 
-  . custom drawings with UIBezierPath (ie: programmer art!)
+* customized UIViews to handle image and text
 
-  . animations for sequences that highlight cards before updating the
-      UICollectionView
+* use of Pinch and Tap gestures
 
-  . clear feedback to the user at all times during the game
+* custom drawings with UIBezierPath (ie: programmer art!)
 
-  . two and three card match games; game history
+* animations for sequences that highlight cards before updating the
+    UICollectionView
 
-  . a simple UIWebView to document Set via Wikipedia
+* clear feedback to the user at all times during the game
 
-  . Settings tab to configure the games and score display, including
-      choosing which game appears first at boot
+* two and three card match games; game history
 
-  . test for the existence of Set matches as a means to improve
-      scoring, display of hints and to determine proper game play
+* a simple UIWebView to document Set via Wikipedia
 
-  . small library of utility classes for debugging, logging, management
-      of user defaults, CGPoint calculations and other miscellaneous
+* Settings tab to configure the games and score display, including
+    choosing which game appears first at boot
+
+* test for the existence of Set matches as a means to improve
+    scoring, display of hints and to determine proper game play
+
+* small library of utility classes for debugging, logging, management
+    of user defaults, CGPoint calculations and other miscellaneous
 
 
-Note contrary to the bold paragraph above, this repository still lacks, and
-will soon be updated to include the following:
+Note: contrary to the paragraph above, this repository still lacks, and
+will soon be updated to include, the following:
 
-  . use of Autolayout in both Portrait and Landscape mode
+* use of Autolayout in both Portrait and Landscape mode
 
-  . user status messages that include card images, for use in Set Game
+* user status messages that include card images, for use in Set Game
 
