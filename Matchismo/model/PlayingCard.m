@@ -1,6 +1,12 @@
 //
 // PlayingCard.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "PlayingCard.h"
 
@@ -11,6 +17,14 @@
 @implementation PlayingCard
 
   @synthesize suit = _suit;     // because we provide both setter and getter
+
+
+
+//---------------------------------------------------- -o--
+#define PLAYINGCARD_SCORE_TWOMATCH_SUIT  1
+#define PLAYINGCARD_SCORE_TWOMATCH_RANK  4
+#define PLAYINGCARD_SCORE_THREEMATCH_SUIT  2
+#define PLAYINGCARD_SCORE_THREEMATCH_RANK  8
 
 
 
@@ -128,9 +142,9 @@
       PlayingCard *otherPlayingCard = (PlayingCard *) otherCard;
 
       if ([otherPlayingCard.suit isEqualToString:self.suit]) {
-        score = 1;
+        score = PLAYINGCARD_SCORE_TWOMATCH_SUIT;
       } else if (otherPlayingCard.rank == self.rank) {
-        score = 4;
+        score = PLAYINGCARD_SCORE_TWOMATCH_RANK;
       }
     }
 
@@ -147,11 +161,11 @@
 
       if ([otherPlayingCard0.suit isEqualToString:self.suit]
             && [otherPlayingCard1.suit isEqualToString:self.suit]) {
-        score = 2;
+        score = PLAYINGCARD_SCORE_THREEMATCH_SUIT;
 
       } else if ((otherPlayingCard0.rank == self.rank)
                     && (otherPlayingCard1.rank == self.rank)) {
-        score = 8;
+        score = PLAYINGCARD_SCORE_THREEMATCH_RANK;
       }
     }
   }

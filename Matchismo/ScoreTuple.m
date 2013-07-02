@@ -1,6 +1,12 @@
 //
 //  ScoreTuple.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "ScoreTuple.h"
 
@@ -11,22 +17,20 @@
 
 
 //-------------------------------------- -o-
-// initWithScore:flipsCount:date:matchGameType:
-//
-// DESIGNNATED INITIALIZER.
-//
-- (id) initWithScore: (int)          score__
+- (id) initWithScore: (int)          score__            // DESIGNNATED INITIALIZER.
           flipsCount: (unsigned int) flipsCount__
                 date: (NSDate *)     date__
-            matchGameType: (unsigned int) matchGameType__
+         gameVersion: (unsigned int) gameVersion__
+       matchGameType: (unsigned int) matchGameType__
 {
   self = [super init];
 
   if (self) {
-    _score       = score__;
-    _flipsCount  = flipsCount__;
-    _date        = date__;
-    _matchGameType    = matchGameType__;
+    _score          = score__;
+    _flipsCount     = flipsCount__;
+    _date           = date__;
+    _gameVersion    = gameVersion__;
+    _matchGameType  = matchGameType__;
   }
 
   return self;
@@ -49,10 +53,11 @@
     {
       NSDictionary *dict = (NSDictionary *)plist;
 
-      _score       = [dict[ST_SCORE] integerValue];
-      _flipsCount  = [dict[ST_FLIPSCOUNT] integerValue];
-      _date        =  dict[ST_DATE];
-      _matchGameType    = [dict[ST_GAMETYPE] integerValue];
+      _score          = [dict[ST_SCORE]       integerValue];
+      _flipsCount     = [dict[ST_FLIPSCOUNT]  integerValue];
+      _date           =  dict[ST_DATE];
+      _gameVersion    = [dict[ST_GAMEVERSION] integerValue];
+      _matchGameType  = [dict[ST_GAMETYPE]    integerValue];
     }
   }
 
@@ -69,6 +74,7 @@
     return @{ ST_SCORE          : @(self.score), 
               ST_FLIPSCOUNT     : @(self.flipsCount), 
               ST_DATE           : self.date, 
+              ST_GAMEVERSION    : @(self.gameVersion),
               ST_GAMETYPE       : @(self.matchGameType) 
             };
 
@@ -76,6 +82,7 @@
     return @{ ST_SCORE          : @(self.score), 
               ST_FLIPSCOUNT     : @(self.flipsCount), 
               ST_DATE           : self.date, 
+              ST_GAMEVERSION    : @(self.gameVersion) 
             };
   }
 }

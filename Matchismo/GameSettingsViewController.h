@@ -1,6 +1,12 @@
 //
 //  GameSettingsViewController.h
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import <UIKit/UIKit.h>
 
@@ -37,7 +43,7 @@
 #define START_GAME_TYPE                 @"START_GAME_TYPE"      
     // first visible game on startup
 
-#define MATCHGAME_TYPE                 @"MATCHGAME_TYPE"      
+#define MATCHGAME_TYPE                  @"MATCHGAME_TYPE"      
     // first visible game in Match category
 #define MATCHGAME_NUMCARDS              @"MATCHGAME_NUMCARDS"
     // number of cards to be dealt in Match game 
@@ -63,5 +69,6 @@
 typedef enum { GSSortByScore = 0, GSSortByFlips, GSSortByDate } 
                                                           GSScoreSortElement;
 typedef enum { GSMatchGame = 0, GSSetGame }               GSStartGame;
+typedef enum { GSVersionOne = 1, GSVersionTwo }           GSGameVersion;
 typedef enum { GSTwoCardMatch = 0, GSThreeCardMatch }     GSMatchGameType;
 

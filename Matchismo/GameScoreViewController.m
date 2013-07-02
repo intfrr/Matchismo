@@ -11,6 +11,12 @@
 //        . incorporate split score into existing tuple format
 //        . works for v2 Set and Match games only
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "GameScoreViewController.h"
 
@@ -42,6 +48,7 @@
 //---------------------------------------------------- -o-
 @implementation GameScoreViewController
 
+//---------------------- -o-
 - (void) viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
@@ -52,7 +59,7 @@
   //   flips in ascending order; dates in descending order.
   //
   NSUInteger sortField  = 
-    [Zed udUIntegerGet: SCORE_SORT_ELEMENT dictionaryKey: DICTIONARY_ROOT];
+    [Zed udUIntegerGet:SCORE_SORT_ELEMENT dictionaryKey:DICTIONARY_ROOT];
 
 
   // Sort scores in descending order; flips in ascending order; dates
@@ -90,10 +97,20 @@
     {
       ScoreTuple *st = (ScoreTuple *) obj;
 
+      NSString *typeAndVersion = 
+        [NSString stringWithFormat:@"%@%@",
+          (GSTwoCardMatch == st.matchGameType) ? @"" : @"T",
+          (GSVersionOne   == st.gameVersion)   
+	    ? ((GSTwoCardMatch == st.matchGameType) ? @"v1" : @",v1")
+	    : @"" ];
+
+      if ([typeAndVersion length] > 0) {
+        typeAndVersion = [NSString stringWithFormat:@"(%@)", typeAndVersion];
+      }
+          
       output = [output stringByAppendingFormat: GAMESCOREVC_FORMAT_MATCH,
                  st.score, st.flipsCount, 
-                   [Zed dateFormatFullShort: st.date],
-                     (GSTwoCardMatch == st.matchGameType) ? @"" : @"(T)" ];
+                   [Zed dateFormatFullShort:st.date], typeAndVersion ];
     }
 
     self.matchGameScoreText.text = output;
@@ -122,10 +139,17 @@
     {
       ScoreTuple *st = (ScoreTuple *) obj;
 
+      NSString *typeAndVersion = 
+        [NSString stringWithFormat:@"%@",
+          (GSVersionOne == st.gameVersion) ? @"v1" : @"" ];
+
+      if ([typeAndVersion length] > 0) {
+        typeAndVersion = [NSString stringWithFormat:@"(%@)", typeAndVersion];
+      }
+
       output = [output stringByAppendingFormat: GAMESCOREVC_FORMAT_MATCH,
                  st.score, st.flipsCount, 
-                   [Zed dateFormatFullShort: st.date],
-                     (GSTwoCardMatch == st.matchGameType) ? @"" : @"(T)" ];
+                   [Zed dateFormatFullShort:st.date], typeAndVersion ];
     }
 
 

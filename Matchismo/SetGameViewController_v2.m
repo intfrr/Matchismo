@@ -1,6 +1,12 @@
 //
 //  SetGameViewController_v2.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "SetGameViewController_v2.h"
 
@@ -38,8 +44,6 @@
 
 #define ADDITIONAL_CARDS_PENALTY  -1
 #define HINT_SEARCH_PENALTY       -24
-
-#define HISTORY_AT_CURRENT  -1
 
 #define CELLSIZE_SETCARD       CGSizeMake(60, 80)
 #define CELLSIZE_DISCARDGROUP  CGSizeMake(120, 58)
@@ -89,8 +93,6 @@
 
 
 //------------------- -o-
-// collectionView:numberOfItemsInSection:
-//
 - (NSInteger) collectionView: (UICollectionView *) collectionView
       numberOfItemsInSection: (NSInteger)          section
 {
@@ -144,12 +146,6 @@
 //
 // Populate content of Headers and Footers across all sections
 // to convey a unified message about gameplay.
-//
-// NB  By default, supplementary views are rendered only once
-//     when sections created!
-//
-// TBD  Subclass UICollectionViewLayout to change header or footer
-//      attributes (ie, height).
 //
 - (UICollectionReusableView *) collectionView: (UICollectionView *)collectionView
             viewForSupplementaryElementOfKind: (NSString *)kind
@@ -318,7 +314,7 @@
 
     if (activeDeckContainsMatch) {
       [self.game userMessage:
-        [NSString stringWithFormat:@"Added cards, despite match(es).  Penalty %d.",
+        [NSString stringWithFormat:@"Add cards, despite match(es).  Penalty %d.",
           abs(ADDITIONAL_CARDS_PENALTY) ]
       ];
       [self.game updateScore:ADDITIONAL_CARDS_PENALTY];
@@ -329,6 +325,7 @@
   }
 
 
+  self.historyIndex = HISTORY_AT_CURRENT;
   [self updateUI];
 
 } // dealAdditionalCardsButtonAction:
@@ -353,12 +350,13 @@
   } else {
     [self.game userMessage:
       [NSString stringWithFormat:@"Hint requested.  Penalty %d.",
-	abs(HINT_SEARCH_PENALTY) ]
+        abs(HINT_SEARCH_PENALTY) ]
     ];
 
     [self.game updateScore:HINT_SEARCH_PENALTY];
   }
 
+  self.historyIndex = HISTORY_AT_CURRENT;
   [self updateUI];
 }
 
@@ -373,29 +371,45 @@
 {
   NSUInteger  numItemsInSectionZero = 
                 [self.cardCollectionView numberOfItemsInSection:SECTION_ZERO];
+  NSUInteger  numItemsInSectionOne;
 
-  NSMutableArray  *ipInsertionArray = [[NSMutableArray alloc] init];
-  NSMutableArray  *ipDeletionArray = [[NSMutableArray alloc] init];
+  NSMutableArray  *ipInsertionArraySectionZero = [[NSMutableArray alloc] init];
+  NSMutableArray  *ipDeletionArraySectionZero = [[NSMutableArray alloc] init];
+  NSMutableArray  *ipDeletionArraySectionOne;
 
         
   // Compute insertions or deletions to Section #0, as appropriate.
+  // Compute deletions from Section #1, as appropriate.
   //
   if (numItemsInSectionZero < INITIAL_CARD_COUNT) {
     for (NSUInteger i = numItemsInSectionZero; i < INITIAL_CARD_COUNT; i++) {
-      [ipInsertionArray addObject: 
+      [ipInsertionArraySectionZero addObject: 
         [NSIndexPath indexPathForRow:i inSection:SECTION_ZERO]];
     }
 
   } else if (numItemsInSectionZero > INITIAL_CARD_COUNT) {
     for (NSUInteger i = INITIAL_CARD_COUNT; i < numItemsInSectionZero; i++) {
-      [ipDeletionArray addObject:
+      [ipDeletionArraySectionZero addObject:
         [NSIndexPath indexPathForRow:i inSection:SECTION_ZERO]];
     }
   } 
+  
+
+  if (self.gNumberOfSections > 1) {
+    numItemsInSectionOne      = [self.cardCollectionView numberOfItemsInSection:SECTION_ONE];
+    ipDeletionArraySectionOne  = [[NSMutableArray alloc] init];
+
+    for (NSUInteger i = 0; i < numItemsInSectionOne; i++) {
+      [ipDeletionArraySectionOne addObject:
+        [NSIndexPath indexPathForRow:i inSection:SECTION_ONE]];
+    }
+
+  }
 
 
   // Batch all updates to avoid intermediate inconsistencies of cell
   // or section count: 
+  //   . Delete cells in Section #1, if they exist.
   //   . Delete Section #1, if it exists.
   //   . Insert or delete cells from Section #0, as necessary
   // 
@@ -403,21 +417,25 @@
   //      cells from Section #1 because, having reset the game, the 
   //      discardPile is lost.
   //
-  if (([ipInsertionArray count] > 0) 
-       || ([ipDeletionArray count] > 0)
+  if (([ipInsertionArraySectionZero count] > 0) 
+       || ([ipDeletionArraySectionZero count] > 0)
          || (self.gNumberOfSections > 1))
   {
     [self.cardCollectionView performBatchUpdates: ^{
 
         if (self.gNumberOfSections > 1) {
+          if ([ipDeletionArraySectionOne count] > 0) {
+            [self.cardCollectionView deleteItemsAtIndexPaths:ipDeletionArraySectionOne];
+          }
+
           [self.cardCollectionView deleteSections:[NSIndexSet indexSetWithIndex:SECTION_ONE]];
           self.gNumberOfSections = 1;
         }
 
-        if ([ipInsertionArray count] > 0) {
-          [self.cardCollectionView insertItemsAtIndexPaths:ipInsertionArray];
-        } else if ([ipDeletionArray count] > 0) {
-          [self.cardCollectionView deleteItemsAtIndexPaths:ipDeletionArray];
+        if ([ipInsertionArraySectionZero count] > 0) {
+          [self.cardCollectionView insertItemsAtIndexPaths:ipInsertionArraySectionZero];
+        } else if ([ipDeletionArraySectionZero count] > 0) {
+          [self.cardCollectionView deleteItemsAtIndexPaths:ipDeletionArraySectionZero];
         }
                                                     } // endblock
                                       completion: nil 
@@ -441,7 +459,7 @@
   SetCard_v2   *setCard      = (SetCard_v2 *)card;
 
 
-#ifdef debug
+#ifdef debugNOT
   NSIndexPath  *cardIndex = [self.cardCollectionView indexPathForCell:cell];
       // NB  cardIndex is nil in the absence of a selection.
 
@@ -508,7 +526,6 @@
 
 
   // First update to visible cells: necessary for incremental updates.
-  // NB  Chooses view card based on model card.
   //
   for (UICollectionViewCell *cell in [self.cardCollectionView visibleCells]) 
   {
@@ -555,6 +572,8 @@
     [(CardMatchingGameThree *)self.game clearHintedFlags];
 
     // Second update to visible cells: needed to handle selections.
+    // NB  Must occur before animation, or updateCell:usingCard: changes order
+    //     of cards in the view.  (?!)
     //
     for (UICollectionViewCell *cell in [self.cardCollectionView visibleCells]) 
     {
@@ -656,7 +675,8 @@
     [[ScoreTuple alloc] initWithScore: self.game.score
                            flipsCount: self.flipsCount
                                  date: [NSDate date]
-                             matchGameType: nil];
+                          gameVersion: GSVersionTwo
+                        matchGameType: nil];
 
   [Zed   udObjectSet: SETGAME_SCORE_CURRENT
        dictionaryKey: DICTIONARY_ROOT
@@ -670,24 +690,25 @@
   //   . And post last move, unless instructed to...
   //   . Post previous history item
   //
+  // NB  Set game posts UserMessage to UserMessageView via descriptionLabelView.
+  //
   if ([self.game.actionHistory count] <= 0) {
-      self.descriptionLabel.text = @"☁ SET MATCH ☁";
+      self.descriptionLabelView.messageData = 
+        [[UserMessage alloc] initWithMessage:@"☁ SET MATCH ☁"];
+
+      self.descriptionLabelView.alpha = ALPHA_OFF;
 
   } else {
     if (HISTORY_AT_CURRENT == self.historyIndex) {
       self.historySlider.maximumValue = [self.game.actionHistory count];
       self.historySlider.value = self.historySlider.maximumValue;
 
-      self.descriptionLabel.text = self.game.action;
-        // FIX -- replace with miniviews of cards...
-
-      self.descriptionLabel.alpha = ALPHA_OFF;
+      self.descriptionLabelView.messageData  = self.game.action;
+      self.descriptionLabelView.alpha        = ALPHA_OFF;
 
     } else {
-      self.descriptionLabel.text = self.game.actionHistory[self.historyIndex];
-        // FIX -- replace with miniviews of cards...
-
-      self.descriptionLabel.alpha = ALPHA_GREY;
+      self.descriptionLabelView.messageData  = self.game.actionHistory[self.historyIndex];
+      self.descriptionLabelView.alpha        = ALPHA_GREY;
     }
   }
 

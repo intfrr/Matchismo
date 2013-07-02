@@ -1,6 +1,17 @@
 //
 //  CardGameViewController.m
 //
+//
+// NB  Autolayout was applied to all views after they were built.
+//     Somehow this compromised the bounds in which the cardback.png is 
+//     drawn so it has been omitted.
+//
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "CardGameViewController.h"
 
@@ -56,7 +67,12 @@
   // Choose match game type from user defaults.
   //
   self.matchGameType = self.segmentSwitch.selectedSegmentIndex = matchGameType;
-  self.game = nil;
+
+
+  // Resets deck once game type is known.  XXX
+  //
+  self.game = nil;  
+
 
   [self updateUI];
 
@@ -156,7 +172,7 @@
   [super sliderAction:sender];
 
   if ([self.game.actionHistory count] == self.historyIndex) {
-    self.historyIndex = -1;             // NB  -1 == current
+    self.historyIndex = HISTORY_AT_CURRENT;
   }
 
   [self updateUI];
@@ -174,11 +190,11 @@
 {
   if (GSTwoCardMatch == [sender selectedSegmentIndex]) 
   {
-    [Log infoMsg:@"Initialize game: Two-card matching."];
+    //[Log infoMsg:@"Initialize game: Two-card matching."];
     self.matchGameType = GSTwoCardMatch;
 
   } else {
-    [Log infoMsg:@"Initialize game: Three-card matching."];
+    //[Log infoMsg:@"Initialize game: Three-card matching."];
     self.matchGameType = GSThreeCardMatch;
   }
 
@@ -194,7 +210,11 @@
 //------------------- -o-
 - (void) updateUI
 {
-  UIImage  *cardback  = [UIImage imageNamed:@"cardback.png"];
+  //UIImage  *cardback  = [UIImage imageNamed:@"cardback.png"];
+  UIImage  *cardback  = nil;
+    // NB TBD  cardback stopped rendering within proper bounds for all
+    //         cards after Autolayout was switched on.  ??
+
 #ifdef debug
   NSString *deckstr   = @"DECKSTATUS... ";  // DEBUG
 #endif
@@ -241,7 +261,8 @@
     [[ScoreTuple alloc] initWithScore: self.game.score 
                            flipsCount: self.flipsCount
                                  date: [NSDate date]
-                             matchGameType: self.matchGameType];
+			  gameVersion: GSVersionOne
+			matchGameType: self.matchGameType];
 
   [Zed   udObjectSet: MATCHGAME_SCORE_CURRENT
        dictionaryKey: DICTIONARY_ROOT
@@ -270,7 +291,7 @@
 #endif
 
   } else {
-    if (-1 == self.historyIndex) {
+    if (HISTORY_AT_CURRENT == self.historyIndex) {
       self.historySlider.maximumValue = [self.game.actionHistory count];
       self.historySlider.value        = self.historySlider.maximumValue;
 

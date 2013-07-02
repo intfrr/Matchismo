@@ -1,6 +1,12 @@
 //
 //  MatchingGame.h
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
 
@@ -10,19 +16,14 @@
 
 
 
-//---------------------------------------------------- -o-
+//---------------------------------------------------- -o--
 @interface MatchingGame : NSObject
-
-#define MATCHGAME_NUMCARDS_MAX          52
-#define MATCHGAME_NUMCARDS_MIN          2
-#define MATCHGAME_NUMCARDS_DEFAULT      22
-
 
   @property (strong, readonly, nonatomic)  NSMutableArray  *cards;  // of Card
 
   @property (readonly, nonatomic)          int              score;
 
-  @property (strong, readonly, nonatomic)  NSString        *action;
+  @property (strong, readonly, nonatomic)  id               action;
   @property (strong, readonly, nonatomic)  NSMutableArray  *actionHistory;
 
   @property (readonly, nonatomic)          NSUInteger       flipCost;
@@ -50,4 +51,11 @@
 
 
 @end // MatchingGame
+
+
+
+//---------------------------------------------------- -o--
+#define MATCHGAME_NUMCARDS_MAX          52
+#define MATCHGAME_NUMCARDS_MIN          2
+#define MATCHGAME_NUMCARDS_DEFAULT      22
 

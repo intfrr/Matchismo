@@ -1,12 +1,18 @@
 //
 // SetCard.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "SetCard.h"
 
 
 
-//---------------------------------------------------- -o-
+//---------------------------------------------------- -o--
 @interface SetCard()
 
   @property (readwrite, nonatomic)  NSUInteger  count;
@@ -19,7 +25,7 @@
 
 
 
-//---------------------------------------------------- -o-
+//---------------------------------------------------- -o--
 @implementation SetCard
 
 //
@@ -121,10 +127,10 @@
 //------------------- -o-
 // descriptionWithAttributedString
 //
-// XXXQ  Should this method be presented elsewhere as a UI category?
-//
 // RETURNS: NSAttributedString of count shapes with proper color and 
 //          shade for this SetCard.
+//
+// XXXQ  Should this method be given elsewhere as a UI category?
 //
 - (NSAttributedString *)descriptionWithAttributedString
 {
@@ -216,7 +222,7 @@
 
       if ([self matchWithCard1:otherSetCard0 andCard2:otherSetCard1])
       {
-        score = 10;
+        score = SETCARD_SCORE_MATCH;
       }
 
     } // endif -- isKindOfClass

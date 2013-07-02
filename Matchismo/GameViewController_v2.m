@@ -1,6 +1,12 @@
 //
 // GameViewController_v2.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "GameViewController_v2.h"
 #import "GameSettingsViewController.h"
@@ -140,7 +146,7 @@
   if (indexPath && (0 == indexPath.section))
   {
     self.flipsCount++;
-    self.historyIndex = -1;       // NB  -1 == current
+    self.historyIndex = HISTORY_AT_CURRENT;
 
     [self.game flipCardAtIndex:indexPath.item];
     [self updateUI];
@@ -163,8 +169,10 @@
 //
 - (IBAction) dealAction:(UIButton *)sender
 {
-  self.flipsCount   = 0;
-  self.historyIndex = -1;       // NB  -1 == current
+  self.flipsCount = 0;
+
+  self.historySlider.value = self.historySlider.maximumValue = 1;
+  self.historyIndex = HISTORY_AT_CURRENT;
 
   [GameViewController_v2 recordCurrentMatchGameScore];
   [GameViewController_v2 recordCurrentSetGameScore];
@@ -174,14 +182,14 @@
 
 
 //------------------- -o-
-// sliderAction
+// sliderAction:
 //
 - (IBAction) sliderAction:(UISlider *)sender 
 {
   self.historyIndex = [sender value];   // XXX  coerce float to int 
 
   if ([self.game.actionHistory count] == self.historyIndex) {
-    self.historyIndex = -1;             // NB  -1 == current
+    self.historyIndex = HISTORY_AT_CURRENT;
   }
 
   [self updateUI];

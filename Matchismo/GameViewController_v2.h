@@ -3,8 +3,12 @@
 //
 // ABSTRACT CLASS.
 //
-// NB  UICollectionView wired up in public (vs. private in the examples).
 //
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import <UIKit/UIKit.h>
 
@@ -14,6 +18,7 @@
 #import "CardMatchingGameThree.h"
 #import "GameSettingsViewController.h"
 #import "ScoreTuple.h"
+#import "UserMessageView.h"
 
 #import "Danaprajna.h"
 
@@ -26,8 +31,10 @@
 //#define TWOCARD_MATCHGAME_ONLY           
 
 #define ALPHA_OFF       1.0
-#define ALPHA_GREY      0.7
+#define ALPHA_GREY      0.6
 #define ALPHA_DISABLED  0.25
+
+#define HISTORY_AT_CURRENT  -1
 
 
 
@@ -39,7 +46,13 @@
   @property (nonatomic)                   int          flipsCount;
 
   @property (weak, nonatomic)    IBOutlet UILabel     *scoreLabel;
-  @property (weak, nonatomic)    IBOutlet UILabel     *descriptionLabel;
+
+  // descriptionLabel for Card Match game; descriptionLabelView for Set Match game.
+  //
+  @property (weak, nonatomic)    IBOutlet UILabel          *descriptionLabel;
+  @property (weak, nonatomic)    IBOutlet UserMessageView  *descriptionLabelView;
+      // NB  For Autolayout -- use fixed width and height to support formatting
+      //     decisions in UserMessage.
 
   @property (weak, nonatomic)    IBOutlet UISlider    *historySlider;
   @property (nonatomic)                   int          historyIndex;

@@ -1,6 +1,12 @@
 //
 //  CardGameViewController_v2.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "CardGameViewController_v2.h"
 
@@ -30,25 +36,20 @@
 // constructors
 //
 
-#if defined(TWOCARD_MATCHGAME_ONLY)
 //------------------- -o-
 - (void) viewDidLoad
 {
   [super viewDidLoad];
 
+
+#if defined(TWOCARD_MATCHGAME_ONLY)
   // Disable and hide segment switch removing choice between
   //   2- and 3-card Match game.
   //
   self.segmentSwitch.enabled  = NO;
   self.segmentSwitch.alpha    = 0;
-}
 
 #else
-//------------------- -o-
-- (void) viewDidLoad
-{
-  [super viewDidLoad];
-
   // Choose match game type from user defaults
   //
   NSUInteger matchGameType = 
@@ -56,6 +57,7 @@
 
   self.matchGameType = self.segmentSwitch.selectedSegmentIndex = matchGameType;
   self.game = nil;
+#endif // TWOCARD_MATCHGAME_ONLY
 
 
   // Place a slight border between card edges and collection view edges.
@@ -70,7 +72,6 @@
   [self updateUI];
 
 } // viewDidLoad
-#endif // TWOCARD_MATCHGAME_ONLY
 
 
 
@@ -162,11 +163,11 @@
 {
   if (GSTwoCardMatch == [sender selectedSegmentIndex]) 
   {
-    [Log infoMsg:@"Initialize game: Two-card matching."];
+    //[Log infoMsg:@"Initialize game: Two-card matching."];
     self.matchGameType = GSTwoCardMatch;
 
   } else {
-    [Log infoMsg:@"Initialize game: Three-card matching."];
+    //[Log infoMsg:@"Initialize game: Three-card matching."];
     self.matchGameType = GSThreeCardMatch;
   }
 
@@ -185,6 +186,9 @@
 //
 // ASSUME  Bounds of initialMatchCardCount are guarded by the min/max settings
 //         on GameSettingsViewController::initialMatchCardCountStepperOutlet.
+//
+// NB  Check for MATCHGAME_NUMCARDS_DEFAULT occurs in both 
+//     GameSettingsViewController and CardGameViewController_v2.
 //
 - (NSUInteger) initialMatchCardCount
 {
@@ -220,8 +224,6 @@
 
 
 //------------------- -o-
-// collectionView:numberOfItemsInSection:
-//
 - (NSInteger) collectionView: (UICollectionView *) collectionView
       numberOfItemsInSection: (NSInteger)          section
 {
@@ -240,7 +242,7 @@
 // it the values of its counterpart PlayingCard in the model.
 // The details of the model are fully realized in this card when the 
 // MatchCardView is redrawn when the OS invokes drawRect:.
-//
+// 
 
 typedef enum { 
   UCFlip, UCFlipThenDissolve, UCWaitThenDissolve, UCNone
@@ -383,7 +385,7 @@ typedef enum {
           [UIView transitionWithView: matchCardView
                             duration: blockDuration
                              options: UIViewAnimationOptionTransitionCrossDissolve   
-                          animations: ^{ /*EMPTY*/ }          // NB  empty block ignores options
+                          animations: ^{ /*EMPTY*/ }          
                           completion: ^(BOOL finished) {
                             if (!finished)  { return; }
                             [UIView transitionWithView: matchCardView
@@ -481,6 +483,7 @@ typedef enum {
     [[ScoreTuple alloc] initWithScore: self.game.score 
                            flipsCount: self.flipsCount
                                  date: [NSDate date]
+                          gameVersion: GSVersionTwo
                         matchGameType: self.matchGameType];
 
   [Zed   udObjectSet: MATCHGAME_SCORE_CURRENT
@@ -509,8 +512,10 @@ typedef enum {
     }
 #endif
 
+    self.descriptionLabel.alpha = ALPHA_OFF;
+
   } else {
-    if (-1 == self.historyIndex) {
+    if (HISTORY_AT_CURRENT == self.historyIndex) {
       self.historySlider.maximumValue = [self.game.actionHistory count];
       self.historySlider.value        = self.historySlider.maximumValue;
 

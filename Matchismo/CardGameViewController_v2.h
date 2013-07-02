@@ -1,6 +1,12 @@
 //
 //  CardGameViewController_v2.h
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import <UIKit/UIKit.h>
 
@@ -13,6 +19,10 @@
 #import "GameCollectionViewCell.h"
 #import "ScoreTuple.h"
 #import "MatchCardView.h"
+
+#import "UserMessage.h"
+#import "UserMessageView.h"
+
 
 #import "Danaprajna.h"
 

@@ -1,12 +1,18 @@
 //
 // SetCard_v2.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "SetCard_v2.h"
 
 
 
-//---------------------------------------------------- -o-
+//---------------------------------------------------- -o--
 @interface SetCard_v2()
 
   @property (readwrite, nonatomic)  NSUInteger  count;
@@ -19,12 +25,11 @@
 
 
 
-//---------------------------------------------------- -o-
+//---------------------------------------------------- -o--
 @implementation SetCard_v2
 
-//
-// class methods
-//
+#pragma mark - Class Methods 
+
 
 //------------------- -o-
 // validShapes
@@ -41,9 +46,8 @@
 
 
 
-//---------------------------------------------------- -o-
-// constructors
-//
+//---------------------------------------------------- -o--
+#pragma mark - Constructors 
 
 //------------------- -o-
 // DESIGNATED INITIALIZER.
@@ -67,9 +71,9 @@
 
 
 
-//---------------------------------------------------- -o-
-// setter/getters
-//
+//---------------------------------------------------- -o--
+#pragma mark - Getters/Setters 
+
 
 //------------------- -o-
 // contents
@@ -89,7 +93,6 @@
        : ((self.shade == SCShadePartial) ? @"p" : @"c")
   ];
 
-
   return str;
 }
 
@@ -103,10 +106,20 @@
 
 
 
+//---------------------------------------------------- -o--
+#pragma mark - Comparators 
 
-//---------------------------------------------------- -o-
-// methods
-//
+//-------------------------------------- -o-
+- (NSComparisonResult) compare: (SetCard_v2 *) otherCard
+{
+  return [self.description compare:otherCard.description]; 
+}
+
+
+
+
+//---------------------------------------------------- -o--
+#pragma mark - Overrides 
 
 //------------------- -o-
 - (NSString *)description  
@@ -115,6 +128,9 @@
 }
 
 
+
+//---------------------------------------------------- -o--
+#pragma mark - Methods 
 
 //------------------- -o-
 - (BOOL)matchWithCard1:(SetCard_v2 *)card1 andCard2:(SetCard_v2 *)card2
@@ -168,7 +184,7 @@
 
       if ([self matchWithCard1:otherSetCard_v20 andCard2:otherSetCard_v21])
       {
-        score = 10;
+        score = SETCARD_SCORE_MATCH;
       }
 
     } // endif -- isKindOfClass

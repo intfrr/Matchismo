@@ -1,6 +1,18 @@
 //
 //  SetGameViewController.m
 //
+// NB  Autolayout was applied after all the views were completed.
+//     Somehow this compromises the bounds of the lower six cards
+//     such that three character NSAttributedStrings are no longer 
+//     wrapped across two lines.  As a quick cleanup, these six cards
+//     are configured to clip subviews.
+//     
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "SetGameViewController.h"
 
@@ -105,7 +117,7 @@
   [super sliderAction:sender];
 
   if ([self.game.actionHistory count] == self.historyIndex) {
-    self.historyIndex = -1;             // NB  -1 == current
+    self.historyIndex = HISTORY_AT_CURRENT;
   }
 
   [self updateUI];
@@ -179,7 +191,8 @@
     [[ScoreTuple alloc] initWithScore: self.game.score
                            flipsCount: self.flipsCount
                                  date: [NSDate date]
-                             matchGameType: nil];
+                          gameVersion: GSVersionOne
+                        matchGameType: nil];
 
   [Zed   udObjectSet: SETGAME_SCORE_CURRENT
        dictionaryKey: DICTIONARY_ROOT
@@ -197,7 +210,7 @@
       self.descriptionLabel.text = @"☁ SET MATCH ☁";
 
   } else {
-    if (-1 == self.historyIndex) {
+    if (HISTORY_AT_CURRENT == self.historyIndex) {
       self.historySlider.maximumValue = [self.game.actionHistory count];
       self.historySlider.value = self.historySlider.maximumValue;
 

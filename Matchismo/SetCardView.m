@@ -3,12 +3,21 @@
 //
 // Draw Set Game symbols with NSBezierPath and background images.
 //
+// SetCardView is a thin view module that happens to contain a large object
+//   definition to draw images.
+//
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "SetCardView.h"
 
 
 
-//--------------------------------------------------------------- -o-
+//--------------------------------------------------------------- -o--
 @interface SetCardView()
 
   @property  (nonatomic)  CGPoint  gViewCenter;
@@ -117,12 +126,38 @@
 
 
 
-//--------------------------------------------------------------- -o-
+//--------------------------------------------------------------- -o--
 @implementation SetCardView
 
-//
-// getters/setters
-//
+#pragma mark - Class Methods
+
+//------------------ -o-
++ (UIImage *) imageFromSetCard: (SetCard_v2 *)setcard  
+                        inRect: (CGRect) rect
+{
+
+  SetCardView  *setCardView = [[SetCardView alloc] 
+                                initWithFrame: rect
+                                        count: setcard.count
+                                        shape: setcard.shape
+                                        color: setcard.color
+                                        shade: setcard.shade ];
+  [setCardView generateCardImage];
+
+  return setCardView.setCardImage;
+}
+
+
+//------------------ -o-
++ (CGFloat) sizeRatio;
+{
+  return SETCARD_SIZE_RATIO;
+}
+
+
+
+//--------------------------------------------------------------- -o--
+#pragma mark - Getters/Setters
 
 - (void) setCount: (NSUInteger)count
 {
@@ -152,9 +187,8 @@
 
 
 
-//--------------------------------------------------------------- -o-
-// methods
-//
+//--------------------------------------------------------------- -o--
+#pragma mark - Methods
 
 //------------------------ -o-
 - (NSString *) description
@@ -176,14 +210,14 @@
 
 
 
-//--------------------------------------------------------------- -o-
+//--------------------------------------------------------------- -o--
 #pragma mark - Drawing
 
 //------------------------ -o-
 // computeGlobals
 //
 // View boundary values based on normative card values during 
-// UIBezierPath development with card of dimentions (x=67, y=87).  
+// UIBezierPath development with card of dimentions (x=66, y=87).  
 // Now fixed as the image of the card.  XXX
 //
 // Scaling the image is more successful than scaling the math of
@@ -193,7 +227,9 @@
 //
 - (void) computeGlobals
 {
-  self.gLocalBounds = CGRectMake(0, 0, 66, 87);  // XXX
+  self.gLocalBounds = 
+    CGRectMake( 0, 0, SETCARD_STANDARD_WIDTH, SETCARD_STANDARD_HEIGHT);  // XXX
+
   self.gViewCenter  = CGPointMake( self.gLocalBounds.size.width / 2, 
                                    self.gLocalBounds.size.height / 2 );
 
@@ -450,7 +486,7 @@
   if (! [schema isKindOfClass:[NSDictionary class]]) 
   {
     DP_MARK(drawSquiggleWithSchema:);
-    [Log errorMsg:@"schema is not an NSDictionary."];  // XXX  should throw exception (or assert?)
+    [Log errorMsg:@"schema is not an NSDictionary."];  // XXX  should throw exception
     return nil;
   }
 
@@ -544,7 +580,7 @@
   if (! [schema isKindOfClass:[NSDictionary class]]) 
   {
     DP_MARK(drawDiamondWithSchema:);
-    [Log errorMsg:@"schema is not NSDictionary."];  // XXX  should throw exception (or assert?)
+    [Log errorMsg:@"schema is not NSDictionary."];  // XXX  should throw exception 
     return nil;
   }
 
@@ -610,7 +646,7 @@
   if (! [schema isKindOfClass:[NSDictionary class]]) 
   {
     DP_MARK(drawTubeWithSchema:);
-    [Log errorMsg:@"schema is not NSDictionary."];  // XXX  should throw exception (or assert?)
+    [Log errorMsg:@"schema is not NSDictionary."];  // XXX  should throw exception 
     return nil;
   }
 
@@ -728,7 +764,8 @@
 
 
 
-//--------------------------------------------------------------- -o-
+
+//--------------------------------------------------------------- -o--
 #pragma mark - Initialization
 
 //------------------ -o-
@@ -753,11 +790,11 @@
 }
 
 //------------------ -o-
-- (id)initWithFrame: (CGRect)     frame 	// SUPPLEMENTARY INITIALIZER
-	      count: (NSUInteger) count
-	      shape: (SCShape)    shape
-	      color: (SCColor)    color
-	      shade: (SCShade)    shade
+- (id)initWithFrame: (CGRect)     frame         // SUPPLEMENTARY INITIALIZER
+              count: (NSUInteger) count
+              shape: (SCShape)    shape
+              color: (SCColor)    color
+              shade: (SCShade)    shade
 {
   self = [self initWithFrame:frame];
 

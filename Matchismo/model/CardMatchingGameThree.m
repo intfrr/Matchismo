@@ -1,6 +1,12 @@
 //
 //  CardMatchingGameThree.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "CardMatchingGameThree.h"
 
@@ -13,7 +19,7 @@
 
   @property (readwrite, nonatomic)          int              score;
 
-  @property (strong, readwrite, nonatomic)  NSString        *action;
+  @property (strong, readwrite, nonatomic)  id               action;
   @property (strong, readwrite, nonatomic)  NSMutableArray  *actionHistory;
 
 @end // CardMatchingGameThree
@@ -33,6 +39,12 @@
 //
 
 //--------------------------- -o-
+// flipCardAtIndex:
+//
+// Adapted to post both NSString and UserMessage objects to the 
+// user post window.  UserMessage is used when card is of type 
+// SetCard_v2.  (Always ASSUME all cards are of the same type.)
+//
 - (void) flipCardAtIndex:(NSUInteger)index
 {
   Card      *card        = [self cardAtIndex:index],
@@ -51,7 +63,8 @@
     if (!card.isFaceUp) 
     {
 
-      // Find two eligible cards.
+      // Find two elligible cards.
+      // TBD  Means to sort cards in order of selection: monotonic counter?
       //
       for (Card *otherCard in self.cards) {
         if (!otherCard.isUnplayable && otherCard.isFaceUp) 
@@ -78,10 +91,19 @@
           localscore             = matchScore * MATCH_BONUS;
           self.score            += localscore;
 
-          self.action = [NSString stringWithFormat:
-            @"%@, %@ and %@ match for %d points.", 
-              otherCard1.contents, otherCard2.contents, card.contents, 
-                localscore];
+          if ([card isKindOfClass:[SetCard_v2 class]])
+	  {
+	    self.action = 
+	      [[UserMessage alloc] initWithCards: @[otherCard1, otherCard2, card]
+	                                 isMatch: YES
+				       andPoints: localscore ];
+
+	  } else {
+	    self.action = [NSString stringWithFormat:
+	      @"%@, %@ and %@ match for %d points.", 
+		otherCard1.contents, otherCard2.contents, card.contents, 
+		  localscore];
+	  }
 
         } else {
           otherCard1.faceUp  = NO;
@@ -90,10 +112,19 @@
           localscore         = self.mismatchPenalty;
           self.score        -= localscore;
 
-          self.action = [NSString stringWithFormat:
-            @"%@, %@ and %@ do not all match.  Penalty %d!", 
-              otherCard1.contents, otherCard2.contents, card.contents, 
-                localscore];
+          if ([card isKindOfClass:[SetCard_v2 class]])
+	  {
+	    self.action = 
+	      [[UserMessage alloc] initWithCards: @[otherCard1, otherCard2, card]
+	                                 isMatch: NO
+				       andPoints: localscore ];
+
+	  } else {
+	    self.action = [NSString stringWithFormat:
+	      @"%@, %@ and %@ do not all match.  Penalty %d!", 
+		otherCard1.contents, otherCard2.contents, card.contents, 
+		  localscore];
+	  }
         }
       }
 
@@ -104,13 +135,33 @@
     card.faceUp = !card.faceUp;
 
     if (! self.action) {
-      self.action = [NSString stringWithFormat:@"%@ is flipped %@.", 
-        card.contents, (card.faceUp ? @"up" : @"down")];
+      if ([card isKindOfClass:[SetCard_v2 class]])
+      {
+	self.action = 
+	  [[UserMessage alloc] initWithCards: @[card]
+				   isFlipped: card.faceUp ];
+
+      } else {
+	self.action = [NSString stringWithFormat:@"%@ is flipped %@.", 
+	  card.contents, (card.faceUp ? @"up" : @"down")];
+      }
     }
 
   } // endif
 
 } // flipCardAtIndex
+
+
+
+//------------------- -o-
+// userMessage: 
+//
+// Subclassed to create UserMessage.
+//
+- (void) userMessage: (NSString *)message
+{
+  self.action = [[UserMessage alloc] initWithMessage:message];
+}
 
 
 

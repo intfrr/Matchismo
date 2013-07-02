@@ -9,6 +9,12 @@
 // content (from Card) contains a string concatenating symbols for each
 // characteristic -- it does not rely on NSAttributedString.
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "SetCard_universal.h"
 #import "Card.h"
@@ -17,16 +23,7 @@
 
 
 
-//---------------------------------------------------- -o-
-#define SETCARD_FONT_SIZE       18
-#define SETCARD_STROKE_WIDTH    -8
-#define SETCARD_SHADE_FRACTION  0.2
-
-#define SETCARD_DESCRIPTION_LENGTH  4   // Cf. contents method.
-
-
-
-//---------------------------------------------------- -o-
+//---------------------------------------------------- -o--
 @interface SetCard_v2 : Card
 
   @property (readonly, nonatomic)  NSUInteger  count;
@@ -49,4 +46,15 @@
 
 
 @end // @interface SetCard_v2 : Card
+
+
+
+//---------------------------------------------------- -o--
+#define SETCARD_FONT_SIZE       18
+#define SETCARD_STROKE_WIDTH    -8
+#define SETCARD_SHADE_FRACTION  0.2
+
+#define SETCARD_DESCRIPTION_LENGTH  4   // Cf. contents method.
+
+#define SETCARD_SCORE_MATCH  10
 

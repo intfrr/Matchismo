@@ -1,6 +1,12 @@
 //
 //  GameSettingsViewController.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "GameSettingsViewController.h"
 
@@ -59,6 +65,9 @@
 //
 // UI updates split into initial and variable settings.
 // UI subviews in viewDidLoad will be updated directly by the user post-boot.
+//
+// NB  Check for MATCHGAME_NUMCARDS_DEFAULT occurs in both 
+//     GameSettingsViewController and CardGameViewController_v2.
 //
 - (void) viewDidLoad
 {

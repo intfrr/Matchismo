@@ -1,6 +1,12 @@
 //
 // SetCardDeck_v2.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "SetCardDeck_v2.h"
 
@@ -80,7 +86,7 @@
 //   cleared only if the expectation is to replace them.
 //
 // ASSUME  If first item in deck is SetCard_v2, then all 
-//           objects are SetCard_v2. XXX
+//         objects are SetCard_v2. XXX
 //
 // NB  Both shuffleArray: and findFirstMatch: return copies 
 //       of their input array.
@@ -165,7 +171,7 @@
 // clearHintedFlags:
 //
 // ASSUME  If first item in deck is SetCard_v2, then all 
-//           objects are SetCard_v2. XXX
+//         objects are SetCard_v2. XXX
 //
 - (void) clearHintedFlags: (NSArray *) deck
 {

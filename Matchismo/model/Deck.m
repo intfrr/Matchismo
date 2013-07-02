@@ -15,6 +15,12 @@
 // The game is responsible for managing the integrity of the set of all possible
 //   cards as they are taken from and returned to the Deck.
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "Deck.h" 
 
@@ -25,8 +31,9 @@
 
   @property (strong, nonatomic)             NSMutableArray  *cards;        // of Card
 
-  @property (strong, readwrite, nonatomic)  NSMutableArray  *discardPile;
-      // discardPile is an array of arrays: groups of Card
+  // discardPile is an array of arrays.
+  //
+  @property (strong, readwrite, nonatomic)  NSMutableArray  *discardPile;  // groups of Card
 
 @end 
 

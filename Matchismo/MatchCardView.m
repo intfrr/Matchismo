@@ -3,6 +3,12 @@
 //
 // Adapted directly from P.Hegarty "PlayingCardView.m".
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "MatchCardView.h"
 
@@ -263,9 +269,9 @@
     [self pushContextAndRotateUpsideDown];
   }
 
-  CGPoint   middle     = 
+  CGPoint   middle = 
     CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-  UIFont   *pipFont    = 
+  UIFont   *pipFont = 
     [UIFont systemFontOfSize:self.bounds.size.width * PIP_FONT_SCALE_FACTOR];
 
   NSAttributedString *attributedSuit = 
@@ -273,9 +279,9 @@
       initWithString: self.suit 
           attributes: @{ NSFontAttributeName : pipFont }];
 
-  CGSize    pipSize    = [attributedSuit size];
+  CGSize    pipSize = [attributedSuit size];
 
-  CGPoint   pipOrigin  = 
+  CGPoint   pipOrigin = 
     CGPointMake(
       middle.x - (pipSize.width/2.0)  - (hoffset*self.bounds.size.width),
       middle.y - (pipSize.height/2.0) - (voffset*self.bounds.size.height)

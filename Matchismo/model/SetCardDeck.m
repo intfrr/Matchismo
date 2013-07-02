@@ -1,6 +1,12 @@
 //
 // SetCardDeck.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "SetCardDeck.h"
 
@@ -72,8 +78,6 @@
 //
 
 //------------------- -o-
-// XXX  Overkill to convert NSDictionary from mutable to immutable?
-//
 - (void) setCardDict:(NSMutableDictionary *)mutableDict
 {
   _cardDict = [mutableDict copy];

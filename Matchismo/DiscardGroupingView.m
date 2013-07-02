@@ -1,6 +1,12 @@
 //
 // DiscardGroupingView.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "DiscardGroupingView.h"
 
@@ -27,8 +33,6 @@
 
 
 //------------------------ -o-
-// setGroup: 
-//
 - (void) setGroup: (NSArray *)setCardMatchedGroup
 {
   _group = setCardMatchedGroup;
@@ -45,40 +49,31 @@
 //
 - (void) drawRect: (CGRect)rect
 {
-  NSUInteger  groupCount    = [self.group count];
-  CGFloat     subviewWidth  = 
-    (self.bounds.size.width - (HORIZONTAL_VIEW_POINTS_SEPARATION * 2)) / groupCount;
-  
-  CGFloat  subviewOriginX = 0;
-  CGRect   subviewRect;
+  NSUInteger  groupCount   = [self.group count];
+  NSArray    *sortedGroup;
+
+  CGRect      subviewRect;
+  CGFloat     subviewOriginX = 0;
+  CGFloat     subviewWidth;
 
 
-  for (int i = 0; i < groupCount; i++)
-  {
-    SetCard_v2  *groupCard = (SetCard_v2 *) self.group[i];
+  if (groupCount > 0) {
+    sortedGroup  = [self.group sortedArrayUsingSelector: @selector(compare:)];
+    subviewWidth = 
+      (self.bounds.size.width - (HORIZONTAL_VIEW_POINTS_SEPARATION * 2)) / groupCount;
 
-    subviewRect = CGRectMake(subviewOriginX, self.bounds.origin.y, 
-                               subviewWidth, self.bounds.size.height);
+    for (int i = 0; i < groupCount; i++)
+    {
+      subviewRect = CGRectMake(subviewOriginX, self.bounds.origin.y, 
+				 subviewWidth, self.bounds.size.height);
 
-#ifdef TEXTONLY_DEBUG
-    NSAttributedString  *cardText = [[NSAttributedString alloc] initWithString:groupCard.description];
-    [cardText drawInRect:subviewRect];
-#endif
+      [[SetCardView imageFromSetCard: sortedGroup[i]
+			      inRect: subviewRect]  drawInRect:subviewRect ];
 
-    SetCardView  *setCardView = [[SetCardView alloc] 
-				  initWithFrame: subviewRect
-					  count: groupCard.count
-					  shape: groupCard.shape
-					  color: groupCard.color
-					  shade: groupCard.shade ];
+      subviewOriginX += subviewWidth + HORIZONTAL_VIEW_POINTS_SEPARATION;
 
-    [setCardView generateCardImage];
-    [setCardView.setCardImage drawInRect:subviewRect];
-
-
-    subviewOriginX += subviewWidth + HORIZONTAL_VIEW_POINTS_SEPARATION;
-
-  } // endfor
+    } // endfor
+  }
 
 } // drawRect:
 

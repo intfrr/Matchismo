@@ -37,7 +37,7 @@
 //
 //
 //---------------------------------------------------------------------
-//     Copyright David Reeder 2013.  ios@danaprajna.com
+//     Copyright David Reeder 2013.  ios@mobilesound.com
 //     Distributed under the Boost Software License, Version 1.0.
 //     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
 //---------------------------------------------------------------------
@@ -101,7 +101,7 @@
 // scaleValue:fromX1:y1:intoX2:y2:invertedMap:rounded:
 //
 // TBD  exponential mapping, optionally biased towards beginning or end
-//        of range2.
+//      of range2.
 //
 + (float)scaleValue: (float)value 
              fromX1: (float)x1  y1: (float)y1 
@@ -197,6 +197,9 @@
 //   identical keys is unstable.
 // NSComparator, block, MUST be in the form defined by 
 //   DP_BLOCK_CMP*_INDEX0_* macros.
+//
+// Use this to sort an array of elements when the element class cannot 
+//   be supplemented with a comparator.
 //
 // ASSUME  Array elements are all in the same format.
 // ASSUME  index is no larger than smallest common sequence of initial

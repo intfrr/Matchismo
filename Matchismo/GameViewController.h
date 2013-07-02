@@ -1,6 +1,12 @@
 //
 //  GameViewController.h
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import <UIKit/UIKit.h>
 
@@ -19,6 +25,8 @@
 #define ALPHA_OFF       1.0
 #define ALPHA_GREY      0.7
 #define ALPHA_DISABLED  0.25
+
+#define HISTORY_AT_CURRENT  -1
 
 
 

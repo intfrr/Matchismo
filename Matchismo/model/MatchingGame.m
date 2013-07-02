@@ -1,6 +1,12 @@
 //
 //  MatchingGame.m
 //
+//
+//---------------------------------------------------------------------
+//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Distributed under the Boost Software License, Version 1.0.
+//     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
+//---------------------------------------------------------------------
 
 #import "MatchingGame.h"
 
@@ -13,7 +19,15 @@
 
   @property (readwrite, nonatomic)          int              score;
 
-  @property (strong, readwrite, nonatomic)  NSString        *action;
+  // The type of the action and history of actions (actionHistory) vary
+  //   according to the type of card in the game.  
+  // Normally action is represented as NSString.
+  // In Set Game (v2), an action is represented by class object UserMessage
+  //   which instructs UserMessageView how to display the message.
+  // To maintain consistency of messages across games, UserMessage must be 
+  //   considered whenever NSString assignments to action are updated.  XXX
+  //
+  @property (strong, readwrite, nonatomic)  id               action;
   @property (strong, readwrite, nonatomic)  NSMutableArray  *actionHistory;
 
   @property (readwrite, nonatomic)          NSUInteger       flipCost;
@@ -94,7 +108,7 @@
 
 
 //
-- (void) setAction:(NSString *)currentAction
+- (void) setAction: (id)currentAction
 {
   if (currentAction) {
     [self.actionHistory addObject:currentAction];
