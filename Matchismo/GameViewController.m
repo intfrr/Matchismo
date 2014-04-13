@@ -3,7 +3,7 @@
 //
 //
 //---------------------------------------------------------------------
-//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Copyright David Reeder 2013.  ios@mobilesound.org
 //     Distributed under the Boost Software License, Version 1.0.
 //     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
 //---------------------------------------------------------------------
@@ -25,7 +25,7 @@
 {
   _flipsCount = flipsCount;
   self.flipsLabel.text = 
-    [NSString stringWithFormat:@"Flips:\n%d", self.flipsCount];
+    [NSString stringWithFormat:@"Flips: %d", self.flipsCount];
 }
 
 

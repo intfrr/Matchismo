@@ -115,7 +115,7 @@
 // c:
 //
 
-+ (NSValue *) s:(NSString *)str
++ (NSString *) s:(NSString *)str
 {
   return [NSString stringWithFormat:@"(%d) \"%@\"", [str length], str];
 }

@@ -3,11 +3,10 @@
 - - - -
 
 David Reeder
-http://davidreeder.info
+http://mobilesound.org
 
 
-This Xcode project represents a solution to the Matchismo assignments given by Paul Hegarty to his students at Stanford during his Winter 2012-2013 course titled "Developing Apps for iOS" (CS193P) which covers the fundamentals of development with iOS 6.
-
+This Xcode project represents a solution to the Matchismo assignments given by Paul Hegarty to his students at Stanford during his Winter 2012-2013 course titled "Developing Apps for iOS" (CS193P) which covers the fundamentals of development with iOS 6.  Autolayout updated for iOS7.
 
 For more information about these courses, and how to download the lectures and materials via iTunesU, please see:
 
@@ -57,4 +56,10 @@ This solution to Matchismo demonstrates the following use of Objective-C and the
 * test for the existence of Set matches as a means to improve scoring, display of hints and to determine proper game play
 
 * small library of utility classes for debugging, logging, management of user defaults, CGPoint calculations and other miscellaneous
+
+
+NOTE -- The rules for Autolayout changed between iOS6 and iOS7.  All touch logic from iOS6 version is now available.  However, the results are fussy! 
+
+Shifting between portrait and landscape will correct UI for missing or improperly sized UI objects.
+If touch is not responding in landscape, fix this by shifting between Set and Match Games while keeping landscape orientation.
 

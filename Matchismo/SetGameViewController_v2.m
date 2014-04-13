@@ -3,7 +3,7 @@
 //
 //
 //---------------------------------------------------------------------
-//     Copyright David Reeder 2013.  ios@mobilesound.com
+//     Copyright David Reeder 2013.  ios@mobilesound.org
 //     Distributed under the Boost Software License, Version 1.0.
 //     (See ./LICENSE_1_0.txt or http://www.boost.org/LICENSE_1_0.txt)
 //---------------------------------------------------------------------
@@ -684,7 +684,7 @@
 
 
   
-  // Handle descriptionLabel of last move or history of moves in view.
+  // Handle descriptionLabelView of last move or history of moves in view.
   //   . At beginning: post game type
   //   . Update slider size
   //   . And post last move, unless instructed to...
